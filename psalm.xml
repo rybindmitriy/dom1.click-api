@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<psalm
+        checkForThrowsDocblock="true"
+        errorLevel="1"
+        findUnusedPsalmSuppress="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin">
+            <containerXml>var/cache/dev/App_KernelDevDebugContainer.xml</containerXml>
+        </pluginClass>
+        <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/>
+    </plugins>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+            <file name="src/Kernel.php"/>
+            <file name="deploy.php"/>
+        </ignoreFiles>
+    </projectFiles>
+</psalm>

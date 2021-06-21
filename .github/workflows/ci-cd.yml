@@ -1,0 +1,53 @@
+name: CI/CD
+
+on: push
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        uses: php-actions/composer@v5
+        with:
+          php_version: 8.0
+          version: 2
+
+      - name: PHP-CS-FIXER
+        run: composer run php-cs-fixer
+
+      - name: Psalm
+        run: composer run psalm
+
+      - name: PHPUnit
+        run: composer run test
+
+#  cd:
+#    name: CD
+#    needs: CI
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/main'
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Install dependencies
+#        uses: php-actions/composer@v5
+#        with:
+#          php_version: 8.0
+#          version: 2
+#
+#      - name: Install SSH Private Key
+#        uses: shimataro/ssh-key-action@v2
+#        with:
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          known_hosts: ${{ secrets.SSH_HOST }}
+#
+#      - name: Adding Known Hosts
+#        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+#
+#      - name: Deploy to Prod
+#        run: composer run dep
